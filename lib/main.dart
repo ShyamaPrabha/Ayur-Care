@@ -1,3 +1,4 @@
+import 'package:ayur_care/presentation/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,26 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Ayur Care',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: SplashScreen()
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
