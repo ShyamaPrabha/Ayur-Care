@@ -37,6 +37,8 @@ class AuthProvider extends ChangeNotifier {
         loginResponse = result;
         await SharedPref().save(key: "userdata", value: loginResponse);
         await SharedPref().getUserData();
+        emailController.clear();
+        passwordController.clear();
       } else {
         loginResponse = null;
       }
