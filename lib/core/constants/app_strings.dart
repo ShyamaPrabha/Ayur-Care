@@ -13,4 +13,6 @@ class AppStrings {
   static const String email = "Email";
   static const String password = "Password";
   static const String login = "Login";
+  static const String viewBookingDetails = "View Booking details";
+  static const String registerNow = "Register Now";
 }

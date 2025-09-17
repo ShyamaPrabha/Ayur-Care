@@ -3,6 +3,7 @@ import 'package:ayur_care/core/constants/app_textstyles.dart';
 import 'package:ayur_care/core/constants/app_strings.dart';
 import 'package:ayur_care/core/extensions/margin_extensions.dart';
 import 'package:ayur_care/presentation/provider/auth/auth_provider.dart';
+import 'package:ayur_care/presentation/screens/dashboard/dashboard_screen.dart';
 import 'package:ayur_care/presentation/screens/widgets/app_svg.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_button.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_textfield.dart';
@@ -61,7 +62,17 @@ class LoginScreen extends StatelessWidget {
                     onChanged: (val) {},
                   ),
                   Spacer(),
-                  CommonButton(buttonText: AppStrings.login),
+                  CommonButton(
+                    buttonText: AppStrings.login,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PatientListingScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   Spacer(),
                   RichText(
                     textAlign: TextAlign.center,
