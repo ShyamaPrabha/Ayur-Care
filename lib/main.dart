@@ -1,8 +1,9 @@
+import 'package:ayur_care/core/config/app_providers.dart';
 import 'package:ayur_care/presentation/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(appProviders());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,4 +1,5 @@
-import 'package:ayur_care/core/constants/config/utils/app_strings.dart';
+import 'package:ayur_care/core/constants/app_strings.dart';
+import 'package:ayur_care/presentation/screens/auth/login_screen.dart';
 import 'package:ayur_care/presentation/screens/widgets/app_svg.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,14 @@ class _SplashScreenState extends State<SplashScreen>
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.forward();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
+      });
+    });
     super.initState();
   }
 
