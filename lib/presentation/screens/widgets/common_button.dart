@@ -8,6 +8,7 @@ class CommonButton extends StatelessWidget {
   final VoidCallback? onTap;
   final double height;
   final double width;
+  final bool isLoading;
   const CommonButton({
     super.key,
     this.isEnabled = true,
@@ -15,6 +16,7 @@ class CommonButton extends StatelessWidget {
     this.onTap,
     this.height = 50,
     this.width = double.infinity,
+    this.isLoading = false,
   });
 
   @override
@@ -42,7 +44,9 @@ class CommonButton extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Text(buttonText, style: AppTextStyles.textStyle_600_17),
+          child: isLoading
+              ? CircularProgressIndicator(color: Colors.white)
+              : Text(buttonText, style: AppTextStyles.textStyle_600_17),
         ),
       ),
     );

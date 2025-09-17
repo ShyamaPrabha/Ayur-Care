@@ -6,6 +6,7 @@ import 'package:ayur_care/presentation/provider/auth/auth_provider.dart';
 import 'package:ayur_care/presentation/screens/dashboard/dashboard_screen.dart';
 import 'package:ayur_care/presentation/screens/widgets/app_svg.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_button.dart';
+import 'package:ayur_care/presentation/screens/widgets/common_snackbar.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +49,9 @@ class LoginScreen extends StatelessWidget {
                     mainLabel: AppStrings.email,
                     controller: authProvider.emailController,
                     label: AppStrings.enterEmail,
-                    onChanged: (val) {},
+                    onChanged: (val) {
+                      authProvider.setEmail(val);
+                    },
                   ),
                   25.hBox,
                   CommonTextFieldWithLabel(
@@ -59,19 +62,39 @@ class LoginScreen extends StatelessWidget {
                     label: AppStrings.enterPassword,
                     togglePasswordVisibility:
                         authProvider.togglePasswordVisibility,
-                    onChanged: (val) {},
+                    onChanged: (val) {
+                      authProvider.setPassword(val);
+                    },
                   ),
                   Spacer(),
                   CommonButton(
+                    isLoading: authProvider.isLoading,
+                    isEnabled:
+                        authProvider.emailController.text.isNotEmpty &&
+                        authProvider.passwordController.text.isNotEmpty,
                     buttonText: AppStrings.login,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PatientListingScreen(),
-                        ),
-                      );
-                    },
+                    onTap:
+                        authProvider.emailController.text.isNotEmpty &&
+                            authProvider.passwordController.text.isNotEmpty
+                        ? () async {
+                            await authProvider.login();
+                            if (authProvider.loginResponse != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PatientListingScreen(),
+                                ),
+                              );
+                            } else {
+                              showToast(
+                                context,
+                                'Login failed. Please check your credentials.',
+                                isError: true
+                              );
+                            }
+                          }
+                        : null,
                   ),
                   Spacer(),
                   RichText(

@@ -1,5 +1,5 @@
 
-const String baseUrl = "https://flutter-amr.noviindus.in/api/";
+const String baseUrl = "https://flutter-amr.noviindus.in/api";
 const String loginUrl = "$baseUrl/Login";
 const String patientListUrl = "$baseUrl/PatientList";
 const String registerPatientUrl = "$baseUrl/PatientUpdate";
