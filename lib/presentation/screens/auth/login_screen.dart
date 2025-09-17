@@ -16,6 +16,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
