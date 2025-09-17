@@ -16,11 +16,11 @@ class LoginResponse {
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      status: json['status'] ?? '',
+      status: json['status'] ?? false,
       message: json['message'] ?? '',
       token: json['token'] ?? '',
       user_details: UserDetails.fromJson(json['user_details'] ?? {}),
-      is_superuser: json['is_superuser'] ?? '',
+      is_superuser: json['is_superuser'] ?? false,
     );
   }
 
@@ -80,8 +80,8 @@ class UserDetails {
       password: json['password'] ?? '',
       password_text: json['password_text'] ?? '',
       admin: json['admin'] ?? '',
-      is_admin: json['is_admin'] ?? '',
-      is_active: json['is_active'] ?? '',
+      is_admin: json['is_admin'] ?? false,
+      is_active: json['is_active'] ?? false,
       created_at: json['created_at'] ?? '',
       updated_at: json['updated_at'] ?? '',
       branch: json['branch'] ?? '',

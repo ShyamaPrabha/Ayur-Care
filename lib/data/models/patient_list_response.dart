@@ -27,7 +27,7 @@ class PatientResponse {
 class Patient {
   int? id;
   List<PatientDetails>? patientdetailsSet;
-  String? branch;
+  dynamic branch;
   String? user;
   String? payment;
   String? name;
