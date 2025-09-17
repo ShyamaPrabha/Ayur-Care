@@ -2,6 +2,7 @@ import 'package:ayur_care/core/constants/app_colors.dart';
 import 'package:ayur_care/core/constants/app_strings.dart';
 import 'package:ayur_care/core/constants/app_textstyles.dart';
 import 'package:ayur_care/core/extensions/margin_extensions.dart';
+import 'package:ayur_care/presentation/screens/registration/register_screen.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_app_bar.dart';
 import 'package:ayur_care/presentation/screens/widgets/common_button.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,21 @@ class PatientListingScreen extends StatelessWidget {
         height: 50,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: CommonButton(buttonText: AppStrings.registerNow),
-        )),
+          child: CommonButton(
+            buttonText: AppStrings.registerNow,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const RegisterScreen();
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       appBar: CommonAppBar(homeScreen: true),
       body: Column(
