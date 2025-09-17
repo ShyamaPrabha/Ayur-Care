@@ -18,9 +18,23 @@ class RegisterApi {
     );
     return response;
   }
-    Future<http.Response> getBranchs() async {
+
+  Future<http.Response> getBranchs() async {
     final url = Uri.parse(branchListUrl);
     final response = await client.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${userData?.token}',
+      },
+    );
+    return response;
+  }
+
+  Future<http.Response> registerPatient(Map<String, dynamic> request) async {
+    final url = Uri.parse(registerPatientUrl);
+    final response = await client.post(
+      body: request,
       url,
       headers: {
         'Content-Type': 'application/json',

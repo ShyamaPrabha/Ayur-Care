@@ -1,4 +1,5 @@
 import 'package:ayur_care/data/models/branch_list_response.dart';
+import 'package:ayur_care/data/models/requests/patient_register_request.dart';
 import 'package:ayur_care/data/models/treatment_list_response.dart';
 import 'package:ayur_care/domain/repositories/register_repository.dart';
 
@@ -12,5 +13,9 @@ class RegisterUseCase {
 
   Future<BranchResponse> getBranches() {
     return repository.getBranches();
+  }
+
+  Future<void> registerPatient(PatientRegisterRequest request) {
+    return repository.registerPatient(request);
   }
 }
