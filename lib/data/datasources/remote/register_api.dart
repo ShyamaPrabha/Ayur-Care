@@ -18,4 +18,15 @@ class RegisterApi {
     );
     return response;
   }
+    Future<http.Response> getBranchs() async {
+    final url = Uri.parse(branchListUrl);
+    final response = await client.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${userData?.token}',
+      },
+    );
+    return response;
+  }
 }
