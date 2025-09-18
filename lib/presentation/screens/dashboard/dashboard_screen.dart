@@ -59,35 +59,40 @@ class _PatientListingScreenState extends State<PatientListingScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Builder(
-              builder: (context) {
-                if (dashboardProvider.isLoading) {
-                  return Center(child: CupertinoActivityIndicator());
-                } else if (dashboardProvider.patients.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No Patients Found',
-                      style: AppTextStyles.textStyle_500_12,
-                    ),
-                  );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  itemBuilder: (context, index) {
-                    var item = dashboardProvider.patients[index];
-                    return PatientListCard(
-                      no: '${index + 1}'.padLeft(2, '0'),
-                      name: item.name ?? '',
-                      packageName:
-                          item.patientdetailsSet?[0].treatmentName ?? '',
-                      date: formatDateForPatients(item.dateNdTime ?? ''),
-                      byStanderName: item.user ?? '',
-                    );
-                  },
-                  separatorBuilder: (context, index) => 24.hBox,
-                  itemCount: dashboardProvider.patients.length,
-                );
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await dashboardProvider.fetchPatients();
               },
+              child: Builder(
+                builder: (context) {
+                  if (dashboardProvider.isLoading) {
+                    return Center(child: CupertinoActivityIndicator());
+                  } else if (dashboardProvider.patients.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No Patients Found',
+                        style: AppTextStyles.textStyle_500_12,
+                      ),
+                    );
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    itemBuilder: (context, index) {
+                      var item = dashboardProvider.patients[index];
+                      return PatientListCard(
+                        no: '${index + 1}'.padLeft(2, '0'),
+                        name: item.name ?? '',
+                        packageName:
+                            item.patientdetailsSet?[0].treatmentName ?? '',
+                        date: formatDateForPatients(item.dateNdTime ?? ''),
+                        byStanderName: item.user ?? '',
+                      );
+                    },
+                    separatorBuilder: (context, index) => 24.hBox,
+                    itemCount: dashboardProvider.patients.length,
+                  );
+                },
+              ),
             ),
           ),
         ],
