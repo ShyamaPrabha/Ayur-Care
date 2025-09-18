@@ -21,6 +21,7 @@ Future<Uint8List> generateInvoicePdf({
   final imageBytes = await rootBundle.loadString(
     'assets/images/ayurcare_logo.svg',
   );
+  final signImage = await rootBundle.loadString('assets/images/sign_ayur.svg');
 
   pdf.addPage(
     pw.Page(
@@ -250,6 +251,7 @@ Future<Uint8List> generateInvoicePdf({
                           color: PdfColor.fromHex("#00000036"),
                         ),
                       ),
+                      pw.SvgImage(svg: signImage, width: 300, height: 300),
                       //  ),
                     ],
                   ),
@@ -257,7 +259,17 @@ Future<Uint8List> generateInvoicePdf({
                 pw.SizedBox(height: 20),
 
                 // Footer
-                //   pw.Divider(),
+                pw.Divider(),
+                pw.Text(
+                  "“Booking amount is non-refundable, and it's important to arrive on the allotted time for your treatment”",
+
+                  style: pw.TextStyle(
+                    font: font,
+                    fontSize: 10,
+                    fontWeight: pw.FontWeight.normal,
+                    color: PdfColor.fromHex("#00000036"),
+                  ),
+                ),
               ],
             ),
           ],
