@@ -80,24 +80,136 @@ class RegisterScreen extends StatelessWidget {
                 mainLabel: 'Branch',
                 getLabel: (p0) => p0.name ?? "",
               ),
-              // CommonTextFieldWithLabel(
-              //   mainLabel: 'Branch',
-              //   controller: TextEditingController(),
-              //   label: 'Select the branch',
-              //   onChanged: (val) {},
-              // ),
+
               20.hBox,
+              ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var item = registerProvider.treatmentsAddedList[index];
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.53),
+                      color: AppColors.cardFillColor,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${index + 1}. ${item.treatmentName}',
+                                style: AppTextStyles.textStyle_500_12.copyWith(
+                                  fontSize: 18,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  registerProvider.updateTreatments(
+                                    isRemove: true,
+                                    index: index,
+                                  );
+                                },
+                                icon: Icon(Icons.close, color: Colors.red),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Male',
+                                    style: AppTextStyles.textStyle_400_16
+                                        .copyWith(color: AppColors.buttonColor),
+                                  ),
+                                   10.wBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
+                                        color: Colors.black.withOpacity(0.20),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
+                                      child: Text(
+                                        item.malePatientCount,
+                                        style: AppTextStyles.textStyle_400_16
+                                            .copyWith(color: AppColors.buttonColor),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Female',
+                                    style: AppTextStyles.textStyle_400_16
+                                        .copyWith(color: AppColors.buttonColor),
+                                  ),
+                                  10.wBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
+                                        color: Colors.black.withOpacity(0.20),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0,
+                                        vertical: 5.0,
+                                      ),
+                                      child: Text(
+                                        item.femalePatientCount,
+                                        style: AppTextStyles.textStyle_400_16
+                                            .copyWith(color: AppColors.buttonColor),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => 10.hBox,
+                itemCount: registerProvider.treatmentsAddedList.length,
+              ),
+              10.hBox,
               CommonButton(
                 buttonText: 'Add Treatment',
                 onTap: () async {
                   await registerProvider.fetchTreatments();
                   treatmentAddDialogue(
+                    onSave: () {
+                      registerProvider.updateTreatments();
+                      Navigator.pop(context);
+                    },
+                    onMaleIncrement: () =>
+                        registerProvider.changeMaleNo(isIncrement: true),
+                    onMaleDecrement: () => registerProvider.changeMaleNo(),
+                    onFemaleIncrement: () =>
+                        registerProvider.changeFemaleNo(isIncrement: true),
+                    onFemaleDecrement: () => registerProvider.changeFemaleNo(),
                     context: context,
                     value: registerProvider.selectedTreatment,
                     treatmentsList: registerProvider.treatments,
                     onChanged: (val) {
                       registerProvider.selectedTreatment = val;
                     },
+                    femaleNoController: registerProvider.femaleNoController,
+                    maleNoController: registerProvider.maleNoController,
                   );
                 },
               ),
@@ -122,21 +234,21 @@ class RegisterScreen extends StatelessWidget {
                   CommonRadioButton(
                     selectedValue: registerProvider.selectedPaymentMethod,
                     onChanged: (val) {
-                      registerProvider.selectedPaymentMethod = val;
+                      registerProvider.setPaymentMethod(val!);
                     },
                     value: "Cash",
                   ),
                   CommonRadioButton(
                     selectedValue: registerProvider.selectedPaymentMethod,
                     onChanged: (val) {
-                      registerProvider.selectedPaymentMethod = val;
+                      registerProvider.setPaymentMethod(val!);
                     },
                     value: "Card",
                   ),
                   CommonRadioButton(
                     selectedValue: registerProvider.selectedPaymentMethod,
                     onChanged: (val) {
-                      registerProvider.selectedPaymentMethod = val;
+                      registerProvider.setPaymentMethod(val!);
                     },
                     value: "UPI",
                   ),

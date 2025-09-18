@@ -29,6 +29,7 @@ class CommonDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      isExpanded: true,
       value: value,
       onChanged: onChanged,
       style: AppTextStyles.textStyle_300_14.copyWith(
@@ -53,6 +54,7 @@ class CommonDropdown<T> extends StatelessWidget {
         return DropdownMenuItem<T>(
           value: item,
           child: Text(
+            overflow: TextOverflow.ellipsis,
             getLabel(item),
             style: AppTextStyles.textStyle_300_14.copyWith(
               color: AppColors.textBlack,

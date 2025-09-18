@@ -8,6 +8,17 @@ import 'package:intl/intl.dart';
 
 import '../../../data/models/treatment_list_response.dart';
 
+class TreatmentListData {
+  final String treatmentName;
+  final String malePatientCount;
+  final String femalePatientCount;
+  TreatmentListData({
+    required this.treatmentName,
+    required this.malePatientCount,
+    required this.femalePatientCount,
+  });
+}
+
 class RegisterProvider extends ChangeNotifier {
   final RegisterUseCase useCase;
   RegisterProvider({required this.useCase});
@@ -16,10 +27,66 @@ class RegisterProvider extends ChangeNotifier {
   List<Branch> branches = [];
   Branch? selectedBranch;
   String? selectedLocation;
+  List<TreatmentListData> treatmentsAddedList = [];
+  TextEditingController maleNoController = TextEditingController();
+  TextEditingController femaleNoController = TextEditingController();
   Treatment? selectedTreatment;
   String? selectedPaymentMethod;
   String? selectedHour;
   String? selectedMinute;
+
+  void updateTreatments({bool isRemove = false, int index = 0}) {
+    if (isRemove) {
+      treatmentsAddedList.removeAt(index);
+      notifyListeners();
+    } else {
+      treatmentsAddedList.add(
+        TreatmentListData(
+          treatmentName: selectedTreatment?.name ?? '',
+          malePatientCount: maleNoController.text,
+          femalePatientCount: femaleNoController.text,
+        ),
+      );
+      maleNoController.clear();
+      femaleNoController.clear();
+      selectedTreatment = null;
+      notifyListeners();
+    }
+  }
+
+  void changeMaleNo({bool isIncrement = false}) {
+    if (isIncrement) {
+      int current = int.tryParse(maleNoController.text) ?? 0;
+      maleNoController.text = (current + 1).toString();
+      notifyListeners();
+    } else {
+      if (maleNoController.text != '0') {
+        int current = int.tryParse(maleNoController.text) ?? 0;
+        maleNoController.text = (current - 1).toString();
+        notifyListeners();
+      }
+    }
+  }
+
+  void changeFemaleNo({bool isIncrement = false}) {
+    if (isIncrement) {
+      int current = int.tryParse(femaleNoController.text) ?? 0;
+      femaleNoController.text = (current + 1).toString();
+      notifyListeners();
+    } else {
+      if (femaleNoController.text != '0') {
+        int current = int.tryParse(femaleNoController.text) ?? 0;
+        femaleNoController.text = (current - 1).toString();
+        notifyListeners();
+      }
+    }
+  }
+
+  void setPaymentMethod(String payment) {
+    selectedPaymentMethod = payment;
+    notifyListeners();
+  }
+
   List<String> hours = List.generate(
     12,
     (i) => (i + 1).toString().padLeft(2, "0"),

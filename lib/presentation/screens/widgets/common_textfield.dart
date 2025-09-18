@@ -14,6 +14,7 @@ class CommonTextfield extends StatelessWidget {
   final bool isSearch;
   final String? hintText;
   final TextStyle? hintStyle;
+  final TextInputType textInputType;
   const CommonTextfield({
     super.key,
     required this.controller,
@@ -26,6 +27,7 @@ class CommonTextfield extends StatelessWidget {
     this.isSearch = false,
     this.hintText,
     this.hintStyle,
+    this.textInputType= TextInputType.text
   });
 
   @override

@@ -14,6 +14,13 @@ void treatmentAddDialogue({
   required Treatment? value,
   required List<Treatment> treatmentsList,
   required void Function(Treatment?) onChanged,
+  required TextEditingController maleNoController,
+  required TextEditingController femaleNoController,
+  required VoidCallback onMaleIncrement,
+  required VoidCallback onFemaleIncrement,
+  required VoidCallback onMaleDecrement,
+  required VoidCallback onFemaleDecrement,
+  required VoidCallback onSave
 }) {
   showDialog(
     context: context,
@@ -69,17 +76,20 @@ void treatmentAddDialogue({
                   Expanded(
                     child: Row(
                       children: [
-                        removeAddIcon(isRemove: true),
+                        removeAddIcon(isRemove: true,onTap: onMaleDecrement),
                         2.wBox,
-                        Expanded(
+                        SizedBox(
+                          width: 45,
                           child: CommonTextfield(
-                            controller: TextEditingController(),
+                             textInputType: TextInputType.number,
+                            controller: maleNoController,
                             label: '',
                             onChanged: (val) {},
                           ),
                         ),
+
                         2.wBox,
-                        removeAddIcon(),
+                        removeAddIcon(onTap: onMaleIncrement),
                       ],
                     ),
                   ),
@@ -114,24 +124,27 @@ void treatmentAddDialogue({
                   Flexible(
                     child: Row(
                       children: [
-                        removeAddIcon(isRemove: true),
+                        removeAddIcon(isRemove: true,onTap: onFemaleDecrement),
                         2.wBox,
-                        Expanded(
+                        SizedBox(
+                          width: 45,
                           child: CommonTextfield(
-                            controller: TextEditingController(),
+                            textInputType: TextInputType.number,
+                            controller: femaleNoController,
                             label: '',
                             onChanged: (val) {},
                           ),
                         ),
+
                         2.wBox,
-                        removeAddIcon(),
+                        removeAddIcon(onTap: onFemaleIncrement),
                       ],
                     ),
                   ),
                 ],
               ),
               30.hBox,
-              CommonButton(buttonText: 'Save'),
+              CommonButton(buttonText: 'Save',onTap:onSave ,),
             ],
           ),
         ),
@@ -140,14 +153,17 @@ void treatmentAddDialogue({
   );
 }
 
-Widget removeAddIcon({bool isRemove = false}) {
-  return Container(
-    height: 40,
-    width: 40,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      color: AppColors.buttonColor,
+Widget removeAddIcon({bool isRemove = false,required VoidCallback onTap}) {
+  return GestureDetector(
+    onTap: onTap ,
+    child: Container(
+      height: 32,
+      width: 32,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.buttonColor,
+      ),
+      child: Icon(isRemove ? Icons.remove : Icons.add, color: Colors.white),
     ),
-    child: Icon(isRemove ? Icons.remove : Icons.add, color: Colors.white),
   );
 }
