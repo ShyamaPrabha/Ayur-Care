@@ -1,16 +1,25 @@
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
-Future<Uint8List> generateInvoicePdf() async {
+Future<Uint8List> generateInvoicePdf({
+  required String   patientName,
+  required String adress,
+  required String phoneNo,
+  required String bookedOn,
+  required String treatmentDate,
+  required String treatmentTime,
+  required String totalAmount,
+  required String discountAmount,
+  required String balanceAmount,
+  required String advanceAmount
+}) async {
   final pdf = pw.Document();
   final font = pw.Font.ttf(await rootBundle.load('assets/fonts/Poppins300.ttf'));
   final imageBytes = await rootBundle.loadString(
     'assets/images/ayurcare_logo.svg',
   );
-  // final image = pw.MemoryImage(imageBytes.buffer.asUint8List());
+
   pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.a4,
@@ -64,24 +73,24 @@ Future<Uint8List> generateInvoicePdf() async {
                 pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Text("Name: Salih T",style: pw.TextStyle(font: font),),
-                    pw.Text("Address: Nadakkavu, Kozhikode",
+                    pw.Text("Name: $patientName",style: pw.TextStyle(font: font),),
+                    pw.Text("Address: $adress",
                       style: pw.TextStyle(font: font),
                     ),
-                    pw.Text("WhatsApp: +91 987654321",
+                    pw.Text("WhatsApp: $phoneNo",
                       style: pw.TextStyle(font: font),
                     ),
                   ],
                 ),
                 pw.Column(
                   children: [
-                    pw.Text("Booked On: 31/01/2024 | 12:12pm",
+                    pw.Text("Booked On: $bookedOn",
                       style: pw.TextStyle(font: font),
                     ),
-                    pw.Text("Treatment Date: 21/02/2024",
+                    pw.Text("Treatment Date: $treatmentDate",
                       style: pw.TextStyle(font: font),
                     ),
-                    pw.Text("Treatment Time: 11:00 am",
+                    pw.Text("Treatment Time: $treatmentTime",
                       style: pw.TextStyle(font: font),
                     ),
                   ],
@@ -93,7 +102,7 @@ Future<Uint8List> generateInvoicePdf() async {
             _buildDivider(),
             // Table of Treatments
             pw.Table(
-              // border: pw.TableBorder.all(color: PdfColors.grey300),
+
               columnWidths: {
                 0: const pw.FlexColumnWidth(3),
                 1: const pw.FlexColumnWidth(2),
@@ -103,7 +112,7 @@ Future<Uint8List> generateInvoicePdf() async {
               },
               children: [
                 pw.TableRow(
-                  // decoration: const pw.BoxDecoration(color: PdfColors.grey300),
+              
                   children: [
                     pw.Padding(
                       padding: const pw.EdgeInsets.all(5),
@@ -175,14 +184,12 @@ Future<Uint8List> generateInvoicePdf() async {
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.end,
                 children: [
-                  _buildSummaryRow("Total Amount",font, "₹7620"),
-                  _buildSummaryRow("Discount",font, "₹500"),
-                  _buildSummaryRow("Advance",font, "₹1200"),
+                  _buildSummaryRow("Total Amount",font, "₹$totalAmount"),
+                  _buildSummaryRow("Discount",font, "₹$discountAmount"),
+                  _buildSummaryRow("Advance",font, "₹$advanceAmount"),
                   _buildDivider(),
-                  _buildSummaryRow("Balance", font, "₹5920", bold: true),
-                  //
-                  // pw.Center(
-                  //  child:
+                  _buildSummaryRow("Balance", font, "₹$balanceAmount", bold: true),
+           
                   pw.Text(
                     "Thank you for choosing us",
                     style: pw.TextStyle(
@@ -192,9 +199,7 @@ Future<Uint8List> generateInvoicePdf() async {
                       color: PdfColor.fromHex("#00A64F"),
                     ),
                   ),
-                  // ),
-                  //  pw.Center(
-                  //child:
+             
                   pw.Text(
                     "Your well-being is our commitment, and we’re honoured \nto assist you on your health journey",
                     textAlign: pw.TextAlign.right,

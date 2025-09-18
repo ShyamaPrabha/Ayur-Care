@@ -11,15 +11,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PatientListingScreen extends StatelessWidget {
+class PatientListingScreen extends StatefulWidget {
   const PatientListingScreen({super.key});
+
+  @override
+  State<PatientListingScreen> createState() => _PatientListingScreenState();
+}
+
+class _PatientListingScreenState extends State<PatientListingScreen> {
+  late DashboardProvider dashboardProvider;
+  @override
+  void initState() {
+    dashboardProvider = context.read<DashboardProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      dashboardProvider.fetchPatients();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final dashboardProvider = context.watch<DashboardProvider>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      dashboardProvider.fetchPatients();
-    });
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(

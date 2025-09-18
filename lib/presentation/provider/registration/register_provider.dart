@@ -2,7 +2,9 @@ import 'package:ayur_care/data/models/branch_list_response.dart';
 import 'package:ayur_care/data/models/requests/patient_register_request.dart';
 import 'package:ayur_care/domain/usecases/register_use_case.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' show showDatePicker;
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/models/treatment_list_response.dart';
 
@@ -12,6 +14,20 @@ class RegisterProvider extends ChangeNotifier {
   bool isLoading = false;
   List<Treatment> treatments = [];
   List<Branch> branches = [];
+  Branch? selectedBranch;
+  String? selectedLocation;
+  Treatment? selectedTreatment;
+  String? selectedPaymentMethod;
+  String? selectedHour;
+  String? selectedMinute;
+  List<String> hours = List.generate(
+    12,
+    (i) => (i + 1).toString().padLeft(2, "0"),
+  );
+  List<String> minutes = List.generate(
+    60,
+    (i) => (i + 1).toString().padLeft(2, "0"),
+  );
   final TextEditingController nameController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -20,6 +36,22 @@ class RegisterProvider extends ChangeNotifier {
       TextEditingController();
   final TextEditingController advanceAmountController = TextEditingController();
   final TextEditingController balanceAmountController = TextEditingController();
+  DateTime? selectedDate;
+  String? selectedDateString;
+  Future<void> pickDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+      selectedDateString = DateFormat('dd-MM-yyyy').format(selectedDate!);
+      notifyListeners();
+    }
+  }
 
   Future<void> fetchTreatments() async {
     try {

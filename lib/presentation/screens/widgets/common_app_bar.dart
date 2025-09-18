@@ -14,6 +14,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final sortOptions = ['Date', 'Name', 'Package'];
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         50.hBox,
         Padding(
@@ -21,7 +22,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.arrow_back, color: AppColors.backIconColor, size: 20),
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back, color: AppColors.backIconColor, size: 20)),
               Icon(
                 Icons.notifications_active_outlined,
                 color: AppColors.backIconColor,
@@ -105,7 +109,10 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
           ),
-        if (!homeScreen) Text(title, style: AppTextStyles.textStyle_600_24),
+        if (!homeScreen) Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(title, style: AppTextStyles.textStyle_600_24),
+        ),
         12.hBox,
         Divider(color: Colors.black.withOpacity(0.20), thickness: 1),
       ],
@@ -114,5 +121,5 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(200);
+  Size get preferredSize =>  Size.fromHeight( homeScreen ?  230 : 152);
 }
