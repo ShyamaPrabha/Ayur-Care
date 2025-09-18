@@ -1,3 +1,4 @@
+import 'package:ayur_care/core/utils/date_utils.dart';
 import 'package:ayur_care/data/models/branch_list_response.dart';
 import 'package:ayur_care/data/models/requests/patient_register_request.dart';
 import 'package:ayur_care/domain/usecases/register_use_case.dart';
@@ -12,10 +13,12 @@ class TreatmentListData {
   final String treatmentName;
   final String malePatientCount;
   final String femalePatientCount;
+  final int id;
   TreatmentListData({
     required this.treatmentName,
     required this.malePatientCount,
     required this.femalePatientCount,
+    required this.id,
   });
 }
 
@@ -42,16 +45,22 @@ class RegisterProvider extends ChangeNotifier {
     } else {
       treatmentsAddedList.add(
         TreatmentListData(
+          id: selectedTreatment?.id ?? 0,
           treatmentName: selectedTreatment?.name ?? '',
           malePatientCount: maleNoController.text,
           femalePatientCount: femaleNoController.text,
         ),
       );
-      maleNoController.clear();
-      femaleNoController.clear();
-      selectedTreatment = null;
+      clearValues();
       notifyListeners();
     }
+  }
+
+  void clearValues() {
+    maleNoController.clear();
+    femaleNoController.clear();
+    selectedTreatment = null;
+    notifyListeners();
   }
 
   void changeMaleNo({bool isIncrement = false}) {
@@ -169,19 +178,23 @@ class RegisterProvider extends ChangeNotifier {
       final request = PatientRegisterRequest(
         name: nameController.text,
         excecutive: '',
-        payment: '',
+        payment: selectedPaymentMethod ?? '',
         phone: numberController.text,
         address: addressController.text,
         total_amount: double.parse(totalAmountController.text),
         discount_amount: double.parse(discountAmountController.text),
         advance_amount: double.parse(advanceAmountController.text),
         balance_amount: double.parse(balanceAmountController.text),
-        date_nd_time: '',
+        date_nd_time: getFormattedDateTime(
+          selectedDate,
+          selectedHour,
+          selectedMinute,
+        ),
         id: '',
-        male: [],
-        female: [],
-        branch: '',
-        treatments: [],
+        male: [int.tryParse(maleNoController.text) ?? 0],
+        female: [int.tryParse(femaleNoController.text) ?? 0],
+        branch: selectedBranch?.name ?? '',
+        treatments: treatmentsAddedList.map((item) => item.id).toList(),
       );
       final result = await useCase.registerPatient(request);
     } catch (e) {

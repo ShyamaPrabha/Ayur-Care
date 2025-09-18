@@ -126,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                                     style: AppTextStyles.textStyle_400_16
                                         .copyWith(color: AppColors.buttonColor),
                                   ),
-                                   10.wBox,
+                                  10.wBox,
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
@@ -136,11 +136,16 @@ class RegisterScreen extends StatelessWidget {
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0,
+                                        vertical: 5.0,
+                                      ),
                                       child: Text(
                                         item.malePatientCount,
                                         style: AppTextStyles.textStyle_400_16
-                                            .copyWith(color: AppColors.buttonColor),
+                                            .copyWith(
+                                              color: AppColors.buttonColor,
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -170,7 +175,9 @@ class RegisterScreen extends StatelessWidget {
                                       child: Text(
                                         item.femalePatientCount,
                                         style: AppTextStyles.textStyle_400_16
-                                            .copyWith(color: AppColors.buttonColor),
+                                            .copyWith(
+                                              color: AppColors.buttonColor,
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -190,6 +197,7 @@ class RegisterScreen extends StatelessWidget {
               CommonButton(
                 buttonText: 'Add Treatment',
                 onTap: () async {
+                  registerProvider.clearValues();
                   await registerProvider.fetchTreatments();
                   treatmentAddDialogue(
                     onSave: () {
@@ -338,7 +346,8 @@ class RegisterScreen extends StatelessWidget {
               55.hBox,
               CommonButton(
                 buttonText: 'Save',
-                onTap: () {
+                onTap: () async {
+                  await registerProvider.registerPatient();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
