@@ -147,6 +147,7 @@ class PatientListCard extends StatelessWidget {
                 14.hBox,
                 Row(
                   children: [
+                    if(date.isNotEmpty)
                     Row(
                       children: [
                         Icon(
